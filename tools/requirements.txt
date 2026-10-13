@@ -1,0 +1,3 @@
+morfeusz2==1.99.15
+yt-dlp
+pytest

@@ -1,0 +1,28 @@
+# Личное — живёт только у тебя, в репозиторий и пакет не идёт
+/profile.md
+/errors.md
+/words.md
+/reviews.md
+/log.md
+/topics.md
+/grammar.md
+/teacher.md
+/teacher-log.md
+/README.md
+/frame.md
+/decisions.md
+/backlog.md
+/mvp.md
+/architecture.md
+/jtbd/
+/research/
+/tasks/todo.md
+/tasks/lessons.md
+
+# Окружение и сборка
+.venv/
+dist/
+__pycache__/
+.pytest_cache/
+sources/*.pdf
+.DS_Store

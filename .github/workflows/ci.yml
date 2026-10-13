@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-install:
+    name: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash   # на Windows — Git Bash, как у Claude Code
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Tests and build
+        run: |
+          uv venv --python 3.12 .venv
+          VIRTUAL_ENV="$PWD/.venv" uv pip install -r tools/requirements.txt
+          PY=.venv/bin/python; [ -x "$PY" ] || PY=.venv/Scripts/python.exe
+          "$PY" -m pytest -q tests
+          "$PY" tools/pack.py
+
+      - name: Install like a new user (one-file installer)
+        run: |
+          T="$PWD/../b2-install"
+          bash dist/polish-b2-install.sh "$T" | tee install.log
+          grep -q "тесты: ок" install.log
+          grep -q "ПЕРВЫЙ ЗАПУСК" install.log
+
+      - name: First run and every mode
+        run: |
+          cd "$PWD/../b2-install"
+          cp .claude/skills/b2/templates/*.md .
+          printf '# Профиль\n- **уровень:** B2\n- **день занятий:** четверг\n- **интересы:** kino\n' > profile.md
+          .venv/bin/python tools/grammar.py
+          .venv/bin/python tools/draw.py --plan | tee plan.log && grep -q "МАРШРУТ" plan.log
+          .venv/bin/python tools/draw.py --powtorka | grep -q "РЕЖИМ: powtórka"
+          .venv/bin/python tools/draw.py | grep -q "ТЕМЫ"
+          .venv/bin/python tools/draw.py --czytanie | grep -q "РЕЖИМ: czytanie"
+          .venv/bin/python tools/srs.py | grep -q "ПОВТОРЕНИЕ"
+          .venv/bin/python tools/teacher_report.py | grep -q "ПЕРИОД"
+          .venv/bin/python tools/check.py "uczta dla oczu" | grep -q "oczu ← oko"
+
+      - name: Reinstall keeps user data
+        run: |
+          bash dist/polish-b2-install.sh "$PWD/../b2-install" > /dev/null
+          grep -q "день занятий" "$PWD/../b2-install/profile.md"
