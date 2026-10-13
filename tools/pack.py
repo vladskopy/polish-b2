@@ -1,7 +1,8 @@
 """Собирает пакет Polski B2 для других: только система, без личных данных.
 
     .venv/bin/python tools/pack.py
-→ dist/polish-b2-v<версия>.tar.gz и dist/polish-b2-install.sh (один файл: архив внутри, base64).
+→ dist/polish-b2-v<версия>.tar.gz, dist/polish-b2-install.sh (один файл: архив внутри, base64)
+  и .github/README.md — страница репозитория из pack/README.md (один источник текста).
 """
 import base64
 import io
@@ -16,7 +17,7 @@ VERSION = "1.0"
 DIST = ROOT / "dist"
 INCLUDE = [
     ".claude/skills/b2", ".claude/skills/powtorka", ".claude/skills/nauczyciel",
-    "tools", "tests", "parts", "tasks/systemantics-check.md", "CHANGELOG.md",
+    "tools", "tests", "parts", "tasks/systemantics-check.md", "CHANGELOG.md", "JTBD.md",
     "sources/b2-standard.md", "sources/README.md", "LICENSE",
 ]
 RENAME = {"pack/README.md": "README.md", "pack/install.sh": "install.sh"}
@@ -36,14 +37,17 @@ def files() -> list[tuple[Path, str]]:
     return out
 
 
-def content(path: Path, arcname: str) -> bytes:
-    data = path.read_bytes()
-    if arcname == "sources/README.md":  # ссылки на исследование не едут — оставляем текст без них
-        text = data.decode("utf-8")
-        text = re.sub(r"\s*\(\[\d{2}\]\(\.\./research/[^)]+\)\)", "", text)
-        text = re.sub(r"\[(\d{2})\]\(\.\./research/[^)]+\)", r"исследованию \1", text)
-        data = text.encode("utf-8")
-    return data
+def github_readme() -> Path:
+    """pack/README.md написан для корня пакета; на GitHub он лежит в .github/ — относительные ссылки получают «../»."""
+    text = (ROOT / "pack/README.md").read_text(encoding="utf-8")
+    text = re.sub(r"\]\((?!https?://|#|\.\./)([^)]+)\)", r"](../\1)", text)
+    badge = "[![ci](https://github.com/vladskopy/polish-b2/actions/workflows/ci.yml/badge.svg)]" \
+            "(https://github.com/vladskopy/polish-b2/actions/workflows/ci.yml)"
+    title, rest = text.split("\n", 1)
+    note = "<!-- Сгенерировано tools/pack.py из pack/README.md — править там. -->"
+    out = ROOT / ".github/README.md"
+    out.write_text(f"{title}\n\n{badge}\n{note}\n{rest}", encoding="utf-8", newline="\n")
+    return out
 
 
 def build() -> tuple[Path, Path]:
@@ -54,11 +58,12 @@ def build() -> tuple[Path, Path]:
     buf = io.BytesIO()
     with tarfile.open(fileobj=buf, mode="w:gz") as tar:
         for path, arcname in pairs:
-            data = content(path, arcname)
+            data = path.read_bytes()
             info = tarfile.TarInfo(arcname)
             info.size = len(data)
             info.mode = 0o755 if arcname.endswith(".sh") else 0o644
             tar.addfile(info, io.BytesIO(data))
+    github_readme()
     archive = DIST / f"polish-b2-v{VERSION}.tar.gz"
     archive.write_bytes(buf.getvalue())
     payload = base64.encodebytes(buf.getvalue()).decode("ascii")

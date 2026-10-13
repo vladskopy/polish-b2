@@ -25,6 +25,7 @@ jobs:
           uv venv --python 3.12 .venv
           VIRTUAL_ENV="$PWD/.venv" uv pip install -r tools/requirements.txt
           PY=.venv/bin/python; [ -x "$PY" ] || PY=.venv/Scripts/python.exe
+          "$PY" tools/check_repo.py     # битые ссылки, личное, лишние файлы
           "$PY" -m pytest -q tests
           "$PY" tools/pack.py
 

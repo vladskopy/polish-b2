@@ -1,6 +1,6 @@
 # Standard B2 — oficjalne wymagania (dorośli)
 
-**Źródło:** Rozporządzenie MNiSW z 14.02.2025 w sprawie egzaminów z języka polskiego jako obcego, Dz.U. 2025 poz. 217, **Załącznik nr 1, Część II** (grupa dostosowana do potrzeb osób dorosłych), **sekcja F — poziom B2**. Pełny PDF: [Dz.U.2025.217-rozporzadzenie-egzaminy.pdf](Dz.U.2025.217-rozporzadzenie-egzaminy.pdf).
+**Źródło:** Rozporządzenie MNiSW z 14.02.2025 w sprawie egzaminów z języka polskiego jako obcego, Dz.U. 2025 poz. 217, **Załącznik nr 1, Część II** (grupa dostosowana do potrzeb osób dorosłych), **sekcja F — poziom B2**. Pełny tekst: https://eli.gov.pl/eli/DU/2025/217/ogl.
 
 **Ważne:**
 - Próg zdania B2 (§ tego rozporządzenia): **co najmniej 60% punktów z każdego modułu części pisemnej oraz z części ustnej.**

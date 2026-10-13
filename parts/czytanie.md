@@ -4,7 +4,7 @@
 
 ## 1. Найти текст (пользователь не ищет сам)
 
-1. Свежие статьи: `.venv/bin/python tools/read.py feed naukawpolsce` или `… feed natemat` (бесплатно, без пейвола). Выбрать статью **за последнюю неделю**, по теме из [topics.md](../topics.md) или интересам из [profile.md](../profile.md).
+1. Свежие статьи: `.venv/bin/python tools/read.py feed naukawpolsce` или `… feed natemat` (бесплатно, без пейвола). Выбрать статью **за последнюю неделю**, по теме из `topics.md` или интересам из `profile.md`.
 2. Другие бесплатные источники по темам — [sources/README.md](../sources/README.md), раздел «Чтение» (zdrowie.pap.pl, culture.pl, polska.travel, pulshr.pl…). **Платные (Polityka, Wyborcza, Rzeczpospolita) не брать.**
 3. Текст: `.venv/bin/python tools/read.py text "<url>"`. Взять **300–700 слов**; длиннее — фрагмент из начала, связный.
 
