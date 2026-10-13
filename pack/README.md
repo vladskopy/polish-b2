@@ -14,7 +14,9 @@
 
 ## Установка
 
-Нужно: [Claude Code](https://claude.com/claude-code), Python 3.10+, macOS или Linux. Желательно [uv](https://docs.astral.sh/uv/) — поставит нужный Python сам.
+Нужно: [Claude Code](https://claude.com/claude-code), Python 3.10+. Желательно [uv](https://docs.astral.sh/uv/) — поставит нужный Python сам.
+
+**Системы** (проверяется CI на каждом изменении): macOS · Linux · Windows — установщик запускать в **Git Bash** (он ставится вместе с Claude Code). На Linux ARM (Raspberry Pi и т.п.) нет словаря Morfeusz — проверка форм не работает, остальное работает.
 
 ```bash
 bash polish-b2-install.sh            # создаст папку polish-b2 рядом
