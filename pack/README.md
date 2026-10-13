@@ -18,12 +18,18 @@
 
 **Системы** (проверяется CI на каждом изменении): macOS · Linux · Windows — установщик запускать в **Git Bash** (он ставится вместе с Claude Code). На Linux ARM (Raspberry Pi и т.п.) нет словаря Morfeusz — проверка форм не работает, остальное работает.
 
+Одной строкой (Windows — в Git Bash):
+
+```bash
+curl -fsSL https://github.com/vladskopy/polish-b2/releases/latest/download/polish-b2-install.sh | bash
+```
+
+Или скачать `polish-b2-install.sh` со [страницы релизов](https://github.com/vladskopy/polish-b2/releases) и запустить:
+
 ```bash
 bash polish-b2-install.sh            # создаст папку polish-b2 рядом
 bash polish-b2-install.sh ~/polski   # или в свою папку
 ```
-
-Если установщик лежит по ссылке: `curl -fsSL <адрес>/polish-b2-install.sh | bash`.
 
 Потом:
 
