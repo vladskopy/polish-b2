@@ -9,13 +9,15 @@ import re
 import tarfile
 from pathlib import Path
 
+import common  # noqa: F401  — UTF-8 вывод на Windows (иначе «КБ» роняет сборку)
+
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "1.0"
 DIST = ROOT / "dist"
 INCLUDE = [
     ".claude/skills/b2", ".claude/skills/powtorka", ".claude/skills/nauczyciel",
     "tools", "tests", "parts", "tasks/systemantics-check.md", "CHANGELOG.md",
-    "sources/b2-standard.md", "sources/README.md",
+    "sources/b2-standard.md", "sources/README.md", "LICENSE",
 ]
 RENAME = {"pack/README.md": "README.md", "pack/install.sh": "install.sh"}
 PRIVATE = {"profile.md", "errors.md", "words.md", "reviews.md", "log.md", "topics.md", "grammar.md",
